@@ -2,8 +2,9 @@
 #ifndef MEMMAP_H_
 #define MEMMAP_H_
 
+#define PUD     2
 
-
+#define SFIOR *((volatile u8*)0x50)
 #define PORTA *((volatile u8*)0x3B)
 #define DDRA  *((volatile u8*)0x3A)
 #define PINA  *((volatile u8*)0x39)

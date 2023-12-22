@@ -1,5 +1,6 @@
 
 
+/*
 #ifndef ROUTINES_H_
 #define ROUTINES_H_
 
@@ -30,4 +31,4 @@
 void vector (void) __attribute__ ((signal,__INTR_ATTRS)) __VA_ARGS__; \
 void vector (void)
 
-#endif /* ROUTINES_H_ */
+#endif / * ROUTINES_H_ * /*/

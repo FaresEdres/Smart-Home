@@ -30,7 +30,7 @@
 					<Attribute></Attribute>
 					<Category>header</Category>
 					<Condition>C</Condition>
-					<FileContentHash>uNh57nzFD1w0v2pUSeqhRA==</FileContentHash>
+					<FileContentHash>+8aUfFRtMkMV+y51dRXK2w==</FileContentHash>
 					<FileVersion></FileVersion>
 					<Name>include/avr/iom32a.h</Name>
 					<SelectString></SelectString>
@@ -41,7 +41,7 @@
 					<Attribute>template</Attribute>
 					<Category>source</Category>
 					<Condition>C Exe</Condition>
-					<FileContentHash>PHCiFWlr+Kj523+PyAf7lQ==</FileContentHash>
+					<FileContentHash>KjvOcFWd++tbnsEMfVPd/w==</FileContentHash>
 					<FileVersion></FileVersion>
 					<Name>templates/main.c</Name>
 					<SelectString>Main file (.c)</SelectString>

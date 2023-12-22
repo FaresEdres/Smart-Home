@@ -1,7 +1,7 @@
-#include "../../../StdTypes.h"
-#include "../../../MemMap.h"
-#include "../../../Utils.h"
-#include "../../../Routines.h"
+#include "../../StdTypes.h"
+#include "../../MemMap.h"
+#include "../../Utils.h"
+#include "../../Routines.h"
 #include "Timer0_Cfg.h"
 #include "Timer0_Interface.h"
 
@@ -98,13 +98,17 @@ void Timer0_OC_set_callback(void (*p2f_var) (void) )
 	}
 }
 
+/*
 ISR(Timer0_OVF_vect)
 {
 	p2f_ov();
 }
+*/
 
+/*
 ISR(TIMER0_COMP_vect)
 {
 	p2f_cmp();
 }
+*/
 

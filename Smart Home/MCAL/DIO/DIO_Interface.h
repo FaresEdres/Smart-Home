@@ -2,72 +2,74 @@
 #define DIO_INTERFACE_H_
 
 #include "../../StdTypes.h"
+#define F_CPU 8000000UL
 
-typedef enum{
-	PINA0,
-	PINA1,
-	PINA2,
-	PINA3,
-	PINA4,
-	PINA5,
-	PINA6,
-	PINA7,
-	PINB0,
-	PINB1,
-	PINB2,
-	PINB3,
-	PINB4,
-	PINB5,
-	PINB6,
-	PINB7,
-	PINC0,
-	PINC1,
-	PINC2,
-	PINC3,
-	PINC4,
-	PINC5,
-	PINC6,
-	PINC7,
-	PIND0,
-	PIND1,
-	PIND2,
-	PIND3,
-	PIND4,
-	PIND5,
-	PIND6,
-	PIND7
-	}DIO_Pin_type;
+#include <util/delay.h>
 
 
 
-typedef enum{
-	OUTPUT,
-	INFREE,
-	INPULL
-	}DIO_PinStatus_type;
+/*
+	Function Name        : DIO_vsetPINDir
+	Function Returns     : void
+	Function Arguments   : u8 portname,u8 pinnumber,u8 direction
+	Function Description : Set the direction of the given pin in the given port (direction 0 = input : 1 = output)
+*/
+void DIO_vsetPINDir(u8 portname,u8 pinnumber,u8 direction);
 
-typedef enum{
-	PA,
-	PB,
-	PC,
-	PD
-	}DIO_Port_type;
+/*
+	Function Name        : DIO_write
+	Function Returns     : void
+	Function Arguments   : u8 portname,u8 pinnumber,u8 outputvalue
+	Function Description : Set the value of the given pin in the given port (outputvalue 0 = low : 1 = high) 
+*/
+void DIO_write(u8 portname,u8 pinnumber,u8 outputvalue);
 
-typedef enum{
-	LOW,
-	HIGH
-	}DIO_PinVoltage_type;	
+/*
+	Function Name        : DIO_u8read
+	Function Returns     : u8
+	Function Arguments   : u8 portname,u8 pinnumber
+	Function Description : Returns 1 if the value of the given pin is high and zero if the value was low
+*/
+u8 DIO_u8read(u8 portname,u8 pinnumber);
 
-typedef struct{
-	DIO_Pin_type pin;
-	DIO_PinStatus_type pin_state;
-	}Pin_Cfg_type;	
-	
-void DIO_InitPin(DIO_Pin_type pin, DIO_PinStatus_type direction);
-void DIO_WritePin(DIO_Pin_type pin , DIO_PinVoltage_type volt);	
-DIO_PinVoltage_type DIO_ReadPin(DIO_Pin_type pin);
-void DIO_TogglePin(DIO_Pin_type pin);
-void DIO_WritePort(DIO_Port_type port,u8 data);
-u8 DIO_ReadPort(DIO_Port_type port);
+/*
+	Function Name        : DIO_toggle
+	Function Returns     : void
+	Function Arguments   : u8 portname,u8 pinnumber
+	Function Description : Reverse the value of the given pin in the given port.
+*/
+void DIO_toggle(u8 portname,u8 pinnumber);
 
-#endif /* DIO_INTERFACE_H_ */
+/*
+	Function Name        : DIO_write_port
+	Function Returns     : void
+	Function Arguments   : u8 portname,u8 portvalue
+	Function Description : Write the value to all port pins.
+*/
+void DIO_write_port(u8 portname,u8 portvalue);
+
+/*
+	Function Name        : clear_high_nibble
+	Function Returns     : void
+	Function Arguments   : u8 portname
+	Function Description : Clear the value of the high nibble of the given port.
+*/
+void clear_high_nibble(u8 portname) ;
+
+/*
+	Function Name        : dio_write_highnibble
+	Function Returns     : void
+	Function Arguments   : u8 portname,u8 value
+	Function Description : Write the high bits of the value given to the high nibble pins of the given port
+*/
+void dio_write_highnibble(u8 portname,u8 value);
+
+/*
+	Function Name        : DIO_vconnectpullup
+	Function Returns     : void
+	Function Arguments   : u8 portname ,u8 pinnumber, u8 connect_pullup
+	Function Description : Connect and disconnect pull up resistor to the given pin at the given port 
+*/
+void DIO_vconnectpullup(u8 portname ,u8 pinnumber, u8 connect_pullup);
+
+#endif /* DIO_H_ */

@@ -4,192 +4,231 @@
 #include "DIO_Interface.h"
 
 
-void DIO_InitPin(DIO_Pin_type pin, DIO_PinStatus_type direction)
-{
-	if (direction==OUTPUT)
-	{
-		switch(pin/8)
-		{
-			case PA :
-			SET_BIT(DDRA,pin%8);
-			CLR_BIT(PORTA,pin%8);
-			break;
-			case PB :
-			SET_BIT(DDRB,pin%8);
-			CLR_BIT(PORTB,pin%8);
-			break;
-			case PC :
-			SET_BIT(DDRC,pin%8);
-			CLR_BIT(PORTC,pin%8);
-			break;
-			case PD :
-			SET_BIT(DDRD,pin%8);
-			CLR_BIT(PORTD,pin%8);
-			break;
-		}
-    } 
-	else if (direction==INFREE)
-	{
-		switch(pin/8)
-		{
-			case PA :
-			CLR_BIT(DDRA,pin%8);
-			CLR_BIT(PORTA,pin%8);
-			break;
-			case PB :
-			CLR_BIT(DDRB,pin%8);
-			CLR_BIT(PORTB,pin%8);
-			break;
-			case PC :
-			CLR_BIT(DDRC,pin%8);
-			CLR_BIT(PORTC,pin%8);
-			break;
-			case PD :
-			CLR_BIT(DDRD,pin%8);
-			CLR_BIT(PORTD,pin%8);
-			break;
-		}
-	}
-	else if (direction==INPULL)
-	{
-			switch(pin/8){
-			case PA :
-			CLR_BIT(DDRA,pin%8);
-			SET_BIT(PORTA,pin%8);
-			break;
-			case PB :
-			CLR_BIT(DDRB,pin%8);
-			SET_BIT(PORTB,pin%8);
-			break;
-			case PC :
-			CLR_BIT(DDRC,pin%8);
-			SET_BIT(PORTC,pin%8);
-			break;
-			case PD :
-			CLR_BIT(DDRD,pin%8);
-			SET_BIT(PORTD,pin%8);
-			break;
-			}
-		} 
-	}
 
-void DIO_WritePin(DIO_Pin_type pin,DIO_PinVoltage_type volt)
-{
-	if (volt==HIGH)
-	{
-		switch(pin/8)
-		{
-			case PA:
-			SET_BIT(PORTA,pin%8);
-			break;
-			case PB:
-			SET_BIT(PORTB,pin%8);
-			break;
-			case PC:
-			SET_BIT(PORTC,pin%8);
-			break;
-			case PD:
-			SET_BIT(PORTD,pin%8);
-			break;
-		}
-	} 
-	else
-	{
-		switch(pin/8)
-		{
-			case PA:
-			CLR_BIT(PORTA,pin%8);
-			break;
-			case PB:
-			CLR_BIT(PORTB,pin%8);
-			break;
-			case PC:
-			CLR_BIT(PORTC,pin%8);
-			break;
-			case PD:
-			CLR_BIT(PORTD,pin%8);
-			break;
-		}
-	}
-} 
 
-DIO_PinVoltage_type DIO_ReadPin(DIO_Pin_type pin)
+void DIO_vsetPINDir(u8 portname,u8 pinnumber,u8 direction)
 {
-	DIO_PinVoltage_type v=LOW;
-	switch(pin/8)
-	{
-		case PA:
-		v=READ_BIT(PORTA,pin%8);
-		break;
-		case PB:
-		v=READ_BIT(PORTB,pin%8);
-		break;
-		case PC:
-		v=READ_BIT(PORTC,pin%8);
-		break;
-		case PD:
-		v=READ_BIT(PORTD,pin%8);
-		break;
-	}
-	return v;
-}
-
-void DIO_TogglePin(DIO_Pin_type pin)
-{
-	switch(pin/8)
-	{
-		case PA:
-		TOG_BIT(PORTA,pin%8);
-		break;
-		case PB:
-		TOG_BIT(PORTB,pin%8);
-		break;
-		case PC:
-		TOG_BIT(PORTC,pin%8);
-		break;
-		case PD:
-		TOG_BIT(PORTD,pin%8);
-		break;
-	}
-}
-
-void DIO_WritePort(DIO_Port_type port , u8 data)
-{
-	switch (port)
+	switch(portname)
 	{
 		
-	case PA :
-	PORTA=data;
-	break;
-	case PB :
-	PORTB=data;
-	break;
-	case PC :
-	PORTC=data;
-	break;
-	case PD :
-	PORTD=data;
-	break;
+		
+		case 'A':
+		if(direction==1)
+		{
+			SET_BIT(DDRA,pinnumber);//Set the direction of the given pin in port A as output
+		}
+		else
+		{
+			CLR_BIT(DDRA,pinnumber);//Set the direction of the given pin in port A as input
+		}
+		break;
+		case 'B':
+		if(direction==1)
+		{
+			SET_BIT(DDRB,pinnumber);//Set the direction of the given pin in port B as output
+		}
+		else
+		{
+			CLR_BIT(DDRB,pinnumber);//Set the direction of the given pin in port B as input
+		}
+		break;
+		case 'C':
+		if(direction==1)
+		{
+			SET_BIT(DDRC,pinnumber);//Set the direction of the given pin in port C as output
+		}
+		else
+		{
+			CLR_BIT(DDRC,pinnumber);//Set the direction of the given pin in port C as input
+		}
+		break;
+		case 'D':
+		if(direction==1)
+		{
+			SET_BIT(DDRD,pinnumber);//Set the direction of the given pin in port D as output
+		}
+		else
+		{
+			CLR_BIT(DDRD,pinnumber);//Set the direction of the given pin in port D as input
+		}
+		break;
+		default: break;
 	}
 }
 
-u8 DIO_ReadPort(DIO_Port_type port)
+
+void DIO_write(u8 portname,u8 pinnumber,u8 outputvalue)
 {
-	u8 data=0;
-	switch (port)
+	switch(portname)
 	{
-	case PA :
-	data=PORTA;
-	break;
-	case PB :
-	data=PORTB;
-	break;
-	case PC :
-	data=PORTC;
-	break;
-	case PD :
-	data=PORTD;
-	break;	
+		case 'A' :
+		
+		if(outputvalue==1)
+		{
+			SET_BIT(PORTA,pinnumber);//Set the value of the given pin in port A as High
+		}
+		else
+		{
+			CLR_BIT(PORTA,pinnumber);//Set the value of the given pin in port A as Low
+		}
+		break ;
+		case 'B':
+		
+		if(outputvalue==1)
+		{
+			SET_BIT(PORTB,pinnumber);//Set the value of the given pin in port B as High
+		}
+		else
+		{
+			CLR_BIT(PORTB,pinnumber);//Set the value of the given pin in port B as Low
+		}
+		break ;
+		case 'C' :
+		
+		if(outputvalue==1)
+		{
+			SET_BIT(PORTC,pinnumber);//Set the value of the given pin in port C as High
+		}
+		else
+		{
+			CLR_BIT(PORTC,pinnumber);//Set the value of the given pin in port C as Low
+		}
+		break ;
+		case 'D':
+		
+		if(outputvalue==1)
+		{
+			SET_BIT(PORTD,pinnumber);//Set the value of the given pin in port D as High
+		}
+		else
+		{
+			CLR_BIT(PORTD,pinnumber);//Set the value of the given pin in port D as Low
+		}
+		break ;
+		default: break ;
 	}
-	return data;
+}
+
+
+u8 DIO_u8read(u8 portname,u8 pinnumber)
+{
+	u8 return_value=0;
+	switch(portname)
+	{
+		case 'A' :
+		return_value=READ_BIT(PINA,pinnumber);//Read the value from the given pin in port A
+		break;
+		
+		case 'B' :
+		return_value=READ_BIT(PINB,pinnumber);//Read the value from the given pin in port B
+		break;
+		
+		case 'C' :
+		return_value=READ_BIT(PINC,pinnumber);//Read the value from the given pin in port C
+		break;
+		
+		case 'D' :
+		return_value=READ_BIT(PIND,pinnumber);//Read the value from the given pin in port D
+		break;
+		default: break;
+	}
+	return return_value ;
+}
+void DIO_toggle(u8 portname,u8 pinnumber)
+{
+	switch(portname)
+	{
+		case 'A':
+		TOG_BIT(PORTA,pinnumber);//Toggle the value of the given pin in port A
+		break;
+		case 'B':
+		TOG_BIT(PORTB,pinnumber);//Toggle the value of the given pin in port B
+		break;
+		case 'C':
+		TOG_BIT(PORTC,pinnumber);//Toggle the value of the given pin in port C
+		break;
+		case 'D':
+		TOG_BIT(PORTD,pinnumber);//Toggle the value of the given pin in port D
+		break;
+		default: break;
+	}
+}
+void DIO_write_port(u8 portname,u8 portvalue)
+{
+	switch(portname)
+	{
+		case 'A' :
+		PORTA=portvalue; //Write the given value to the port A
+		break ;
+		case 'B':
+		PORTB=portvalue; //Write the given value to the port B
+		break ;
+		case 'C' :
+		PORTC=portvalue; //Write the given value to the port C
+		break ;
+		case 'D':
+		PORTD=portvalue; //Write the given value to the port D
+		break ;
+		default: break ;
+	}
+}
+
+void DIO_vconnectpullup(u8 portname ,u8 pinnumber, u8 connect_pullup)
+{
+	switch(portname)
+	{
+		/* Connect or disconnect the pull up resistance to the given pin in port A */
+		case 'A':
+		if(connect_pullup==1)
+		{
+			CLR_BIT(SFIOR,PUD);
+			CLR_BIT(DDRA,pinnumber);
+			SET_BIT(PORTA,pinnumber);
+		}
+		else
+		{
+			CLR_BIT(PORTA,pinnumber);
+		}
+		break;
+		/* Connect or disconnect the pull up resistance to the given pin in port B */
+		case 'B':
+		if(connect_pullup==1)
+		{
+			CLR_BIT(SFIOR,PUD);
+			CLR_BIT(DDRB,pinnumber);
+			SET_BIT(PORTB,pinnumber);
+		}
+		else
+		{
+			CLR_BIT(PORTB,pinnumber);
+		}
+		break;
+		/* Connect or disconnect the pull up resistance to the given pin in port C */
+		case 'C':
+		if(connect_pullup==1)
+		{
+			CLR_BIT(SFIOR,PUD);
+			CLR_BIT(DDRC,pinnumber);
+			SET_BIT(PORTC,pinnumber);
+		}
+		else
+		{
+			CLR_BIT(PORTC,pinnumber);
+		}
+		break;
+		/* Connect or disconnect the pull up resistance to the given pin in port D */
+		case 'D':
+		if(connect_pullup==1)
+		{
+			CLR_BIT(SFIOR,PUD);
+			CLR_BIT(DDRD,pinnumber);
+			SET_BIT(PORTD,pinnumber);
+		}
+		else
+		{
+			CLR_BIT(PORTD,pinnumber);
+		}
+		break;
+		
+	}
 }
